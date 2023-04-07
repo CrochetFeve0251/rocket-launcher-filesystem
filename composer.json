@@ -1,6 +1,6 @@
 {
-  "name": "crochetfeve0251/rocket-launcher-filesystem",
-  "description": "Initialisation library for psr4 plugin",
+  "name": "wp-launchpad/filesystem",
+  "description": "Filesystem library for Launchpad framework",
   "minimum-stability": "stable",
   "license": "proprietary",
   "type": "library",
@@ -17,12 +17,12 @@
   },
   "autoload": {
     "psr-4": {
-      "RocketLauncherFilesystem\\": "inc/"
+      "LaunchpadFilesystem\\": "inc/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "RocketLauncherFilesystem\\Tests\\": "tests/"
+      "LaunchpadFilesystem\\Tests\\": "tests/"
     }
   }
 }

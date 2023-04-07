@@ -1,6 +1,6 @@
 <?php
 
-namespace RocketLauncherFilesystem;
+namespace LaunchpadFilesystem;
 
 use stdClass;
 use WP_Filesystem_Base;

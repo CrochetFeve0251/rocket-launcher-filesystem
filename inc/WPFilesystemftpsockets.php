@@ -1,6 +1,6 @@
 <?php
 
-namespace RocketLauncherFilesystem;
+namespace LaunchpadFilesystem;
 use WP_Filesystem_ftpsockets;
 
 class WPFilesystemftpsockets extends FilesystemBase
