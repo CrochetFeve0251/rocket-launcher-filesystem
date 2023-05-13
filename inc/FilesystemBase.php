@@ -85,4 +85,70 @@ abstract class FilesystemBase
 
         $this->filesystem->{$name} = $value;
     }
+
+    /**
+     * Recursive directory creation based on full path.
+     *
+     * @param string $target path to the directory we want to create.
+     * @return bool True if directory is created/exists, false otherwise
+     */
+    public function recursive_mkdir( $target ) {
+        $wrapper = null;
+
+        if ( $this->is_stream( $target ) ) {
+            list( $wrapper, $target ) = explode( '://', $target, 2 );
+        }
+
+        // from php.net/mkdir user contributed notes.
+        $target = str_replace( '//', '/', $target );
+
+        // Put the wrapper back on the target.
+        if ( null !== $wrapper ) {
+            $target = $wrapper . '://' . $target;
+        }
+
+        // safe mode fails with a trailing slash under certain PHP versions.
+        $target = rtrim( $target, '/\\' );
+        if ( empty( $target ) ) {
+            $target = '/';
+        }
+
+        if ( $this->filesystem->exists( $target ) ) {
+            return $this->filesystem->is_dir( $target );
+        }
+
+        // Attempting to create the directory may clutter up our display.
+        if ( $this->filesystem->mkdir( $target ) ) {
+            return true;
+        } elseif ( $this->filesystem->is_dir( dirname( $target ) ) ) {
+            return false;
+        }
+
+        // If the above failed, attempt to create the parent node, then try again.
+        if ( ( '/' !== $target ) && ( $this->recursive_mkdir( dirname( $target ) ) ) ) {
+            return $this->recursive_mkdir( $target );
+        }
+
+        return false;
+    }
+
+    /**
+     * Test if a given path is a stream URL.
+     *
+     * @param string $path The resource path or URL.
+     *
+     * @return bool true if the path is a stream URL; else false.
+     */
+    public function is_stream( $path ) {
+        $scheme_separator = strpos( $path, '://' );
+
+        if ( false === $scheme_separator ) {
+            // $path isn't a stream.
+            return false;
+        }
+
+        $stream = substr( $path, 0, $scheme_separator );
+
+        return in_array( $stream, stream_get_wrappers(), true );
+    }
 }
