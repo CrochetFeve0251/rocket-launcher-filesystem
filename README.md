@@ -3,4 +3,4 @@
 Launchpad library for filesystem.
 
 ## Install 
-To install run the following command : `composer require wp-launcpad/filesystem-take-off --dev`
+To install run the following command : `composer require wp-launchpad/filesystem-take-off --dev`
